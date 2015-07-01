@@ -43,8 +43,31 @@ angular.module('starter.controllers', [])
       $scope.modalSignUp.show();
   };
 
+    // Richiede il logout
+    $scope.logout = function() {
+        if(confirm('Vuoi effettuare il logout')) {
+            $scope.doLogout();
+        }
+    };
 
-  // Perform the login action when the user submits the login form
+
+
+// Perform the login action when the user submits the login form
+    $scope.doLogout = function() {
+        console.log('Doing logout', $scope.loginData);
+        BaasBox.logout()
+            .done(function (res) {
+                console.log(res);
+            })
+            .fail(function (error) {
+                console.log("error ", error);
+            })
+    };
+
+
+
+
+        // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
