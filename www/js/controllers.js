@@ -47,7 +47,7 @@ angular.module('starter.controllers', [])
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
-      BaasBox.login("bbb", "bbb")
+
       BaasBox.login($scope.loginData.username, $scope.loginData.password)
           .done(function (user) {
               console.log("Logged in ", user);
