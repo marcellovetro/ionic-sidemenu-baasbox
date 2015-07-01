@@ -33,6 +33,15 @@ angular.module('starter.controllers', [])
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
+      BaasBox.login($scope.loginData.username, $scope.loginData.password)
+          .done(function (user) {
+              console.log("Logged in ", user);
+          })
+          .fail(function (err) {
+              console.log("error ", err);
+          });
+
+
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {

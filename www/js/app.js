@@ -17,6 +17,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+      BaasBox.setEndPoint("http://localhost:9000");
+      BaasBox.appcode = "1234567890";
+
+      console.log("BaasBox initiated");
+
   });
 })
 
