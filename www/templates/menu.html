@@ -18,10 +18,10 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close ng-click="signUp()">
+        <ion-item menu-close ng-click="signUp()" ng-show="username == null">
           SignUp
         </ion-item>
-        <ion-item menu-close ng-click="login()">
+        <ion-item menu-close ng-click="login()" ng-show="username == null">
           Login
         </ion-item>
         <ion-item menu-close href="#/app/search">
@@ -33,8 +33,8 @@
         <ion-item menu-close href="#/app/playlists">
           Playlists
         </ion-item>
-        <ion-item menu-close ng-click="logout()">
-          LogOut
+        <ion-item menu-close ng-click="logout()" ng-hide="username == null">
+          LogOut {{ username }}
         </ion-item>
       </ion-list>
     </ion-content>

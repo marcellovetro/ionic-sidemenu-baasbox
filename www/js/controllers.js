@@ -60,6 +60,7 @@ angular.module('starter.controllers', [])
         BaasBox.logout()
             .done(function (res) {
                 console.log(res);
+                $scope.username = null;
             })
             .fail(function (error) {
                 console.log("error ", error);
@@ -76,6 +77,8 @@ angular.module('starter.controllers', [])
       BaasBox.login($scope.loginData.username, $scope.loginData.password)
           .done(function (user) {
               console.log("Logged in ", user);
+              $scope.username = user.username;
+              $scope.email = user.visibleByTheUser.email;
           })
           .fail(function (err) {
               console.log("error ", err);
@@ -95,8 +98,6 @@ angular.module('starter.controllers', [])
       BaasBox.signup($scope.signUpData.username, $scope.signUpData.password, {"visibleByTheUser": {"email" : $scope.signUpData.email}})
           .done(function (res) {
               console.log("signup ", res);
-              //$rootScope.username = signUpData.username;
-              //$rootScope.email = signUpData.email;
           })
           .fail(function (error) {$scope.signUpData
               console.log("error ", error);
