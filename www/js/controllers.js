@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
   }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.modalLogin = modal;
   });
 
   // Create the signUp modal that we will use later
@@ -36,11 +36,13 @@ angular.module('starter.controllers', [])
 
   // Open the login modal
   $scope.login = function() {
-    $scope.modal.show();
+      $scope.modal = $scope.modalLogin;
+      $scope.modal.show();
   };
   // Open the signUp modal
   $scope.signUp = function() {
-      $scope.modalSignUp.show();
+      $scope.modal = $scope.modalSignUp;
+      $scope.modal.show();
   };
 
     // Richiede il logout
