@@ -18,7 +18,10 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close ng-click="signUp()" ng-show="username == null">
+          <ion-item ng-hide="username == null">
+              Wellcome {{ username }}
+          </ion-item>
+          <ion-item menu-close ng-click="signUp()" ng-show="username == null">
           SignUp
         </ion-item>
         <ion-item menu-close ng-click="login()" ng-show="username == null">
