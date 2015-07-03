@@ -15,6 +15,17 @@ angular.module('starter.controllers', [])
   // Form data for the signUp modal
   $scope.signUpData = {};
 
+        console.log(window.localStorage);
+
+        var userData = JSON.parse(window.localStorage['user-data'] || '{}');
+        console.log(userData);
+        if (userData != null) {
+            $scope.username = userData.username;
+            $scope.email = userData.email;
+            $scope.token = userData.token;
+
+        }
+
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -65,6 +76,8 @@ angular.module('starter.controllers', [])
             .fail(function (error) {
                 console.log("error ", error);
             })
+        window.localStorage['user-data'] = null;
+        $scope.username = null;
     };
 
 
@@ -79,6 +92,15 @@ angular.module('starter.controllers', [])
               console.log("Logged in ", user);
               $scope.username = user.username;
               $scope.email = user.visibleByTheUser.email;
+
+              window.localStorage['user-data'] = JSON.stringify({
+                  'username' : user.username,
+                  'password' : $scope.loginData.password,
+                  'token' : user.token
+              });
+
+              console.log(window.localStorage);
+
           })
           .fail(function (err) {
               console.log("error ", err);
