@@ -119,7 +119,17 @@ angular.module('starter.controllers', [])
 
       BaasBox.signup($scope.signUpData.username, $scope.signUpData.password, {"visibleByTheUser": {"email" : $scope.signUpData.email}})
           .done(function (res) {
-              console.log("signup ", res);
+              console.log("signup ", user);
+
+              $scope.username = user.username;
+              $scope.email = $scope.signUpData.email;
+              window.localStorage['user-data'] = JSON.stringify({
+                  'username' : $scope.signUpData.username,
+                  'password' : $scope.loginData.password,
+                  'token' : user.token
+              });
+
+              console.log(window.localStorage);
           })
           .fail(function (error) {$scope.signUpData
               console.log("error ", error);
