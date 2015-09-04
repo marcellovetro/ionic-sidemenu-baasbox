@@ -124,13 +124,14 @@ var BaasBox = (function() {
         }
       },
 
-      endPoint: function() {
+      getEndPoint: function() {
           return this.endPoint;
       },
 
+
       login: function(user, pass) {
         var deferred = buildDeferred();
-        var url = BaasBox.endPoint + '/login';
+        var url = BaasBox.getEndPoint() + '/login';
         var loginRequest = $.post(url, {
           username: user,
           password: pass,
@@ -164,7 +165,7 @@ var BaasBox = (function() {
         if (u === null) {
           return deferred.reject({"data" : "ok", "message" : "User already logged out"})
         }
-        var url = BaasBox.endPoint + '/logout';
+        var url = BaasBox.getEndPoint() + '/logout';
         var req = $.post(url, {})
           .done(function (res) {
             if(window.Zepto && window.localStorage) {
@@ -183,7 +184,7 @@ var BaasBox = (function() {
 
       signup: function(user, pass, acl) {
         var deferred = buildDeferred();
-        var url = BaasBox.endPoint + '/user';
+        var url = BaasBox.getEndPoint() + '/user';
         var postData = {username: user, password: pass}
         if (acl !== undefined || !this.isEmpty(acl)) {
           var visibilityProperties = Object.getOwnPropertyNames(acl)
@@ -224,23 +225,23 @@ var BaasBox = (function() {
       },
 
       fetchCurrentUser: function () {
-        return $.get(BaasBox.endPoint + '/me')
+        return $.get(BaasBox.getEndPoint() + '/me')
       },
 
       createCollection: function(collection) {
-        return $.post(BaasBox.endPoint + '/admin/collection/' + collection)
+        return $.post(BaasBox.getEndPoint() + '/admin/collection/' + collection)
       },
 
       deleteCollection: function(collection) {
         return $.ajax({
-          url: BaasBox.endPoint + '/admin/collection/' + collection,
+          url: BaasBox.getEndPoint() + '/admin/collection/' + collection,
           method: 'DELETE'
         })
       },
 
       loadCollectionWithParams: function(collection, params) {
         var deferred = buildDeferred();
-        var url = BaasBox.endPoint + '/document/' + collection;
+        var url = BaasBox.getEndPoint() + '/document/' + collection;
         var req = $.ajax({
             url: url,
             method: 'GET',
@@ -262,16 +263,16 @@ var BaasBox = (function() {
       },
 
       loadObject: function (collection, objectId) {
-        return $.get(BaasBox.endPoint + '/document/' + collection + '/' + objectId)
+        return $.get(BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId)
       },
 
       save: function(object, collection) {
         var deferred = buildDeferred();
         var method = 'POST';
-        var url = BaasBox.endPoint + '/document/' + collection;
+        var url = BaasBox.getEndPoint() + '/document/' + collection;
         if (object.id) {
           method = 'PUT';
-          url = BaasBox.endPoint + '/document/' + collection + '/' + object.id;
+          url = BaasBox.getEndPoint() + '/document/' + collection + '/' + object.id;
         }
         json = JSON.stringify(object);
         var req = $.ajax({
@@ -292,7 +293,7 @@ var BaasBox = (function() {
 
       updateField: function(objectId, collection, fieldName, newValue) {
         var deferred = buildDeferred();
-        url = BaasBox.endPoint + '/document/' + collection + '/' + objectId + '/.' + fieldName;
+        url = BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId + '/.' + fieldName;
         var json = JSON.stringify({
             "data": newValue
         });
@@ -314,39 +315,39 @@ var BaasBox = (function() {
 
       deleteObject: function(objectId, collection) {
         return $.ajax({
-          url: BaasBox.endPoint + '/document/' + collection + '/' + objectId,
+          url: BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId,
           method: 'DELETE'
         });
       },
 
       fetchObjectsCount: function (collection) {
-        return $.get(BaasBox.endPoint + '/document/' + collection + '/count');
+        return $.get(BaasBox.getEndPoint() + '/document/' + collection + '/count');
       },
 
       grantUserAccessToObject: function (collection, objectId, permission, username) {
         return $.ajax({
-            url: BaasBox.endPoint + '/document/' + collection + '/' + objectId + '/' + permission + '/user/' + username,
+            url: BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId + '/' + permission + '/user/' + username,
             method: 'PUT'
         });
       },
 
       revokeUserAccessToObject: function (collection, objectId, permission, username) {
         return $.ajax({
-            url: BaasBox.endPoint + '/document/' + collection + '/' + objectId + '/' + permission + '/user/' + username,
+            url: BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId + '/' + permission + '/user/' + username,
             method: 'DELETE'
         });
       },
 
       grantRoleAccessToObject: function (collection, objectId, permission, role) {
         return $.ajax({
-            url: BaasBox.endPoint + '/document/' + collection + '/' + objectId + '/' + permission + '/role/' + role,
+            url: BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId + '/' + permission + '/role/' + role,
             method: 'PUT'
         });
       },
 
       revokeRoleAccessToObject: function (collection, objectId, permission, role) {
         return $.ajax({
-            url: BaasBox.endPoint + '/document/' + collection + '/' + objectId + '/' + permission + '/role/' + role,
+            url: BaasBox.getEndPoint() + '/document/' + collection + '/' + objectId + '/' + permission + '/role/' + role,
             method: 'DELETE'
         });
       },
@@ -354,7 +355,7 @@ var BaasBox = (function() {
       // only for json assets
       loadAssetData: function(assetName) {
         var deferred = buildDeferred();
-        var url = BaasBox.endPoint + '/asset/' + assetName + '/data';
+        var url = BaasBox.getEndPoint() + '/asset/' + assetName + '/data';
         var req = $.ajax({
           url: url,
           method: 'GET',
@@ -372,7 +373,7 @@ var BaasBox = (function() {
 
       getImageURI: function(name, params) {
         var deferred = buildDeferred();
-        var uri = BaasBox.endPoint + '/asset/' + name;
+        var uri = BaasBox.getEndPoint() + '/asset/' + name;
         var r;
         if (params === null || this.isEmpty(params)) {
           return deferred.resolve({"data": uri + "?X-BAASBOX-APPCODE=" + BaasBox.appcode})
@@ -398,12 +399,12 @@ var BaasBox = (function() {
       },
 
       fetchUserProfile: function (username) {
-        return $.get(BaasBox.endPoint + '/user/' + username)
+        return $.get(BaasBox.getEndPoint() + '/user/' + username)
       },
 
       fetchUsers: function (params) {
         return $.ajax({
-            url: BaasBox.endPoint + '/users',
+            url: BaasBox.getEndPoint() + '/users',
             method: 'GET',
             data: params
         });
@@ -411,7 +412,7 @@ var BaasBox = (function() {
 
       updateUserProfile: function (params) {
         return $.ajax({
-            url: BaasBox.endPoint + '/me',
+            url: BaasBox.getEndPoint() + '/me',
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(params)          
@@ -420,7 +421,7 @@ var BaasBox = (function() {
 
       changePassword: function (oldPassword, newPassword) {
         return $.ajax({
-            url: BaasBox.endPoint + '/me/password',
+            url: BaasBox.getEndPoint() + '/me/password',
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({old: oldPassword, new: newPassword})            
@@ -429,31 +430,31 @@ var BaasBox = (function() {
 
       resetPassword: function() {
         var user = getCurrentUser();
-        return $.get(BaasBox.endPoint + '/user/' + user.username + '/password/reset');
+        return $.get(BaasBox.getEndPoint() + '/user/' + user.username + '/password/reset');
       },
 
       followUser: function (username) {
-        return $.post(BaasBox.endPoint + '/follow/' + username);
+        return $.post(BaasBox.getEndPoint() + '/follow/' + username);
       },
 
       unfollowUser: function (username) {
         return $.ajax({
-          url: BaasBox.endPoint + '/follow/' + username,
+          url: BaasBox.getEndPoint() + '/follow/' + username,
           method : 'DELETE'
         });
       },
 
       fetchFollowers: function (username) {
-        return $.get(BaasBox.endPoint + '/followers/' + username);
+        return $.get(BaasBox.getEndPoint() + '/followers/' + username);
       },
 
       fetchFollowing: function (username) {
-        return $.get(BaasBox.endPoint + '/following/' + username);
+        return $.get(BaasBox.getEndPoint() + '/following/' + username);
       },
 
 	    sendPushNotification: function(params) {
         return $.ajax({
-          url: BaasBox.endPoint + '/push/message', 
+          url: BaasBox.getEndPoint() + '/push/message',
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(params)  
@@ -462,7 +463,7 @@ var BaasBox = (function() {
 
       uploadFile: function(formData) {
         return $.ajax({
-          url: BaasBox.endPoint + '/file',
+          url: BaasBox.getEndPoint() + '/file',
           type: 'POST',
           data:  formData,
           mimeType: "multipart/form-data",
@@ -473,44 +474,44 @@ var BaasBox = (function() {
       },
 
       fetchFile: function(fileId) {
-        return $.get(BaasBox.endPoint + '/file/' + fileId + "?X-BB-SESSION=" + BaasBox.getCurrentUser().token)
+        return $.get(BaasBox.getEndPoint() + '/file/' + fileId + "?X-BB-SESSION=" + BaasBox.getCurrentUser().token)
       },
 
       deleteFile: function(fileId) {
         return $.ajax({
-          url: BaasBox.endPoint + '/file/' + fileId,
+          url: BaasBox.getEndPoint() + '/file/' + fileId,
           method : 'DELETE'
         });
       },
 
       fetchFileDetails: function(fileId) {
-        return $.get(BaasBox.endPoint + '/file/details/' + fileId)
+        return $.get(BaasBox.getEndPoint() + '/file/details/' + fileId)
       },
 
       grantUserAccessToFile: function (fileId, permission, username) {
         return $.ajax({
-            url: BaasBox.endPoint + '/file/' + fileId + '/' + permission + '/user/' + username,
+            url: BaasBox.getEndPoint() + '/file/' + fileId + '/' + permission + '/user/' + username,
             method: 'PUT'
         });
       },
 
       revokeUserAccessToFile: function (fileId, permission, username) {
         return $.ajax({
-            url: BaasBox.endPoint + '/file/' + fileId + '/' + permission + '/user/' + username,
+            url: BaasBox.getEndPoint() + '/file/' + fileId + '/' + permission + '/user/' + username,
             method: 'DELETE'
         });
       },
 
       grantRoleAccessToFile: function (fileId, permission, rolename) {
         return $.ajax({
-            url: BaasBox.endPoint + '/file/' + fileId + '/' + permission + '/role/' + rolename,
+            url: BaasBox.getEndPoint() + '/file/' + fileId + '/' + permission + '/role/' + rolename,
             method: 'PUT'
         });
       },
 
       revokeRoleAccessToFile: function (fileId, permission, rolename) {
         return $.ajax({
-            url: BaasBox.endPoint + '/file/' + fileId + '/' + permission + '/role/' + rolename,
+            url: BaasBox.getEndPoint() + '/file/' + fileId + '/' + permission + '/role/' + rolename,
             method: 'DELETE'
         });
       },

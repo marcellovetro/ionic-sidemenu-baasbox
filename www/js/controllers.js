@@ -9,6 +9,12 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+
+    BaasBox.setEndPoint("http://localhost:9000");
+    BaasBox.appcode = "1234567890";
+    console.log("BaasBox initiated");
+
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -89,7 +95,7 @@ angular.module('starter.controllers', [])
 
       BaasBox.login($scope.loginData.username, $scope.loginData.password)
           .done(function (user) {
-              console.log("Logged in ", user);
+              console.log("Logged in ", user.username);
               $scope.username = user.username;
               $scope.email = user.visibleByTheUser.email;
 
@@ -99,11 +105,11 @@ angular.module('starter.controllers', [])
                   'token' : user.token
               });
 
-              console.log(window.localStorage);
+              console.log('Logged ', window.localStorage['user-data']);
 
           })
           .fail(function (err) {
-              console.log("error ", err);
+              console.log("error ", err.responseText )
           });
 
 
@@ -132,7 +138,7 @@ angular.module('starter.controllers', [])
               console.log(window.localStorage);
           })
           .fail(function (error) {$scope.signUpData
-              console.log("error ", error);
+              console.log("error ", err.responseText );
           });
 
 
